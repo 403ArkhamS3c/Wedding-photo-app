@@ -1,11 +1,9 @@
-# Wedding Photo App — Pencocokan Foto Tamu Pernikahan
+# Wedding Photo App, Pencocokan Foto Tamu Pernikahan
 
 Aplikasi web untuk mencocokkan wajah tamu dengan foto-foto acara pernikahan.
 Tamu mengunggah selfie, sistem membandingkannya dengan foto yang diunggah
 fotografer, lalu tamu melihat hasilnya di galeri pribadi lewat token — tanpa
 perlu akun.
-
-Tampilan bertema anime (sakuga-vfx) dengan palet gelap `--sk-*`.
 
 ## Fitur
 
@@ -145,10 +143,7 @@ Buka **http://localhost:5173**
 ## Data Uji & Akun Dummy
 
 Untuk pengujian manual tersedia akun dummy + event siap isi
-(kode tamu, kode fotografer, token galeri, dll.).
-
-> **Kredensialnya ada di `note.txt`** (folder root) — file itu di-ignore git
-> dan tidak ikut ter-push karena berisi sandi.
+(kode tamu, kode fotografer, token galeri, dll.)
 
 Membuat akun dummy baru:
 
