@@ -1,0 +1,572 @@
+@import "tailwindcss";
+
+/* Mode gelap diatur lewat class .dark pada <html> (toggle di halaman Login) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   TEMA SAKUGA — kertas putih, tinta violet, aksen pink
+   Palet diambil dari repo finktheartist/sakuga-vfx (MIT).
+   ============================================================ */
+@theme {
+  --font-sans:
+    "M PLUS Rounded 1c", "Zen Maru Gothic", ui-rounded, "Segoe UI", system-ui,
+    sans-serif;
+
+  --color-paper: #f6f4ff; /* kertas halaman */
+  --color-card: #ffffff; /* panel / kartu */
+  --color-ink: #1d1a4a; /* tinta utama (teks & garis) */
+  --color-dim: #8580b0; /* teks sekunder */
+  --color-soft: #b8b3ff; /* lavender (bayangan keras) */
+  --color-pri: #8f8df7; /* violet utama */
+  --color-acc: #ff5fa8; /* pink aksen */
+  --color-line: #ded9ff; /* garis tipis */
+}
+
+:root {
+  color-scheme: light;
+
+  /* Titik screentone ala manga di latar halaman */
+  --tone: rgba(143, 141, 247, 0.16);
+
+  /* Variabel kontrol <sakuga-*> — salinan default dari core-nya */
+  --sk-card: #fff;
+  --sk-ink: #1d1a4a;
+  --sk-dim: #8580b0;
+  --sk-soft: #b8b3ff;
+  --sk-pri: #8f8df7;
+  --sk-pri-ink: #1d1a4a;
+  --sk-acc: #ff5fa8;
+  --sk-track: #c9cbe0;
+  --sk-r: 15px;
+  --sk-bw: 3.2px;
+  --sk-sh: 6px 7px 0 var(--sk-soft);
+  --sk-btn-sh: var(--sk-sh);
+  --sk-btn-line: var(--sk-ink);
+  --sk-alt-sh: var(--sk-sh);
+  --sk-alt-line: var(--sk-ink);
+  --sk-tick: var(--sk-ink);
+  --sk-fill: var(--sk-acc);
+  --sk-on-pri: #fff;
+}
+
+/* Kertas malam: tinta terang di atas kertas gelap */
+html.dark {
+  color-scheme: dark;
+
+  --tone: rgba(184, 179, 255, 0.1);
+
+  --color-paper: #14112b;
+  --color-card: #211c40;
+  --color-ink: #efecff;
+  --color-dim: #a49ede;
+  --color-soft: #4a4287;
+  --color-pri: #a5a3ff;
+  --color-acc: #ff86bd;
+  --color-line: #3a3468;
+
+  --sk-card: #211c40;
+  --sk-ink: #efecff;
+  --sk-dim: #a49ede;
+  --sk-soft: #4a4287;
+  --sk-pri: #a5a3ff;
+  --sk-pri-ink: #14112b;
+  --sk-acc: #ff86bd;
+  --sk-track: #3a3468;
+  --sk-sh: 6px 7px 0 #37306b;
+  --sk-btn-line: #efecff;
+  --sk-alt-line: #efecff;
+  --sk-tick: #14112b;
+  --sk-on-pri: #14112b;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  background-image: radial-gradient(var(--tone) 1.2px, transparent 1.4px);
+  background-size: 24px 24px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
+
+  ::selection {
+    background: var(--color-acc);
+    color: #fff;
+  }
+
+  /* Mode gelap diaktifkan lewat toggle di halaman Login */
+  .dark {
+    color-scheme: dark;
+  }
+}
+
+/* ============================================================
+   ELEMEN SAKUGA — lebar penuh & font halaman
+   ============================================================ */
+sakuga-input {
+  display: block !important; /* :host dari komponen memakai inline-block */
+  width: 100%;
+  --sk-input-width: 100%;
+}
+
+sakuga-progress {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  --sk-progress-width: 100%;
+}
+
+sakuga-tabs {
+  display: block;
+  width: 100%;
+}
+
+sakuga-tabs::part(tabs) {
+  width: 100%;
+}
+
+sakuga-tabs::part(tab) {
+  flex: 1 1 0;
+  text-align: center;
+}
+
+sakuga-toast {
+  z-index: 100;
+}
+
+sakuga-input::part(input),
+sakuga-checkbox::part(label),
+sakuga-tabs::part(tabs),
+sakuga-progress::part(label),
+sakuga-toast::part(toast),
+sakuga-tooltip::part(button) {
+  font-family: var(--font-sans);
+}
+
+sakuga-button::part(button) {
+  font-family: "M PLUS Rounded 1c", "Nunito", -apple-system, "Segoe UI",
+    system-ui, sans-serif;
+}
+
+/* ============================================================
+   KELAS TEMA — dipakai bersama utility Tailwind
+   ============================================================ */
+@layer components {
+  /* Panel utama: garis tinta tebal + bayangan keras lavender */
+  .sk-card {
+    background: var(--color-card);
+    border: var(--sk-bw) solid var(--color-ink);
+    border-radius: var(--sk-r);
+    box-shadow: var(--sk-sh);
+  }
+
+  /* Panel lembut: untuk kotak di dalam panel */
+  .sk-card-soft {
+    background: color-mix(in srgb, var(--color-card) 70%, var(--color-paper));
+    border: 2.5px solid var(--color-line);
+    border-radius: 14px;
+    box-shadow: 4px 4px 0 color-mix(in srgb, var(--color-soft) 55%, transparent);
+  }
+
+  /* <sakuga-button> yang memenuhi lebar form */
+  .sk-btn-full {
+    display: block;
+    width: 100%;
+  }
+
+  .sk-btn-full::part(button) {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Label kecil di atas judul, mis. ドラマ or PHOTO */
+  .sk-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-acc);
+  }
+
+  .sk-kicker::before {
+    content: "";
+    width: 14px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--color-acc);
+  }
+
+  /* Kode tamu / referral */
+  .sk-code {
+    font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-ink);
+    background: color-mix(in srgb, var(--color-soft) 22%, transparent);
+    border: 2.5px dashed var(--color-pri);
+    border-radius: 12px;
+    padding: 4px 12px;
+    display: inline-block;
+  }
+
+  /* Tombol kecil (Salin, QR, refresh, keluar) */
+  .sk-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-ink);
+    background: var(--color-card);
+    border: 2.5px solid var(--color-ink);
+    border-radius: 10px;
+    padding: 6px 10px;
+    box-shadow: 3px 3px 0 var(--color-soft);
+    cursor: pointer;
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease,
+      background 0.12s ease;
+  }
+
+  .sk-btn-ghost:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 var(--color-soft);
+    background: color-mix(in srgb, var(--color-soft) 20%, var(--color-card));
+  }
+
+  .sk-btn-ghost:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--color-soft);
+  }
+
+  .sk-btn-soft {
+    background: color-mix(in srgb, var(--color-soft) 30%, var(--color-card));
+  }
+
+  .sk-btn-danger {
+    color: var(--color-acc);
+    border-color: var(--color-acc);
+    box-shadow: 3px 3px 0 color-mix(in srgb, var(--color-acc) 35%, transparent);
+  }
+
+  .sk-btn-danger:hover {
+    background: var(--color-acc);
+    color: #fff;
+    box-shadow: 5px 5px 0 color-mix(in srgb, var(--color-acc) 45%, transparent);
+  }
+
+  /* Baris label form */
+  .sk-field-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-dim);
+    margin-bottom: 7px;
+  }
+
+  /* Input bawaan (tanggal, dsb.) yang tidak diganti <sakuga-input> */
+  .sk-input {
+    width: 100%;
+    padding: 11px 14px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--color-ink);
+    background: var(--color-card);
+    border: var(--sk-bw) solid var(--color-ink);
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 var(--color-soft);
+    outline: none;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+
+  .sk-input::placeholder {
+    color: var(--color-dim);
+  }
+
+  .sk-input:focus {
+    border-color: var(--color-acc);
+    box-shadow: 4px 4px 0 color-mix(in srgb, var(--color-acc) 55%, transparent);
+  }
+
+  /* Area jatuhkan foto */
+  .sk-dropzone {
+    position: relative;
+    border: 3px dashed var(--color-pri);
+    border-radius: 16px;
+    padding: 34px 20px;
+    text-align: center;
+    background: color-mix(in srgb, var(--color-soft) 14%, transparent);
+    transition:
+      transform 0.15s ease,
+      background 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .sk-dropzone:hover {
+    transform: translateY(-2px);
+    background: color-mix(in srgb, var(--color-soft) 26%, transparent);
+    border-color: var(--color-acc);
+  }
+
+  /* Kartu statistik */
+  .sk-stat {
+    background: var(--color-card);
+    border: var(--sk-bw) solid var(--color-ink);
+    border-radius: 14px;
+    box-shadow: var(--sk-sh);
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .sk-iconbox {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex: none;
+    border: 3px solid var(--color-ink);
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 var(--color-soft);
+  }
+
+  .sk-iconbox-pri {
+    background: var(--color-pri);
+    color: #fff;
+  }
+
+  .sk-iconbox-acc {
+    background: var(--color-acc);
+    color: #fff;
+  }
+
+  .sk-iconbox-soft {
+    background: color-mix(in srgb, var(--color-soft) 45%, var(--color-card));
+    color: var(--color-ink);
+  }
+
+  /* Bingkai foto ala panel manga */
+  .sk-photo {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-card);
+    border: 3px solid var(--color-ink);
+    border-radius: 14px;
+    box-shadow: 5px 6px 0 var(--color-soft);
+    transform: rotate(var(--sk-rot, 0deg));
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+
+  .sk-photo:hover {
+    transform: rotate(var(--sk-rot, 0deg)) translate(-3px, -3px);
+    box-shadow: 9px 10px 0 var(--color-soft);
+    z-index: 2;
+  }
+
+  .sk-photo img {
+    transition: transform 0.3s ease;
+  }
+
+  .sk-photo:hover img {
+    transform: scale(1.06);
+  }
+
+  /* Item daftar acara di sidebar */
+  .sk-item {
+    width: 100%;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 2.5px solid transparent;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-ink);
+    background: transparent;
+    cursor: pointer;
+    transition:
+      transform 0.12s ease,
+      background 0.12s ease,
+      border-color 0.12s ease;
+  }
+
+  .sk-item:hover {
+    background: color-mix(in srgb, var(--color-soft) 20%, transparent);
+    transform: translateX(3px);
+  }
+
+  .sk-item-active,
+  .sk-item-active:hover {
+    background: color-mix(in srgb, var(--color-acc) 16%, var(--color-card));
+    border-color: var(--color-acc);
+    box-shadow: 4px 4px 0 color-mix(in srgb, var(--color-acc) 40%, transparent);
+    transform: none;
+  }
+
+  /* Panel notifikasi (error / sukses / info) */
+  .sk-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 2.5px solid var(--color-ink);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+    background: var(--color-card);
+    box-shadow: 4px 4px 0 var(--color-soft);
+  }
+
+  .sk-alert-error {
+    color: #b4004f;
+    border-color: var(--color-acc);
+    background: color-mix(in srgb, var(--color-acc) 14%, var(--color-card));
+    box-shadow: 4px 4px 0 color-mix(in srgb, var(--color-acc) 45%, transparent);
+  }
+
+  html.dark .sk-alert-error {
+    color: #ffc4dd;
+  }
+
+  .sk-alert-ok {
+    color: #0b7a52;
+    border-color: #2fbf87;
+    background: color-mix(in srgb, #2fbf87 16%, var(--color-card));
+    box-shadow: 4px 4px 0 color-mix(in srgb, #2fbf87 45%, transparent);
+  }
+
+  html.dark .sk-alert-ok {
+    color: #9df0d0;
+  }
+
+  .sk-alert-warn {
+    color: #8a5300;
+    border-color: #f7b32b;
+    background: color-mix(in srgb, #f7b32b 18%, var(--color-card));
+    box-shadow: 4px 4px 0 color-mix(in srgb, #f7b32b 45%, transparent);
+  }
+
+  html.dark .sk-alert-warn {
+    color: #ffd88a;
+  }
+
+  /* Tautan aksen */
+  .sk-link {
+    font-weight: 800;
+    color: var(--color-acc);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-thickness: 2.5px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--color-acc) 45%, transparent);
+  }
+
+  .sk-link:hover {
+    text-decoration-color: var(--color-acc);
+    color: color-mix(in srgb, var(--color-acc) 80%, var(--color-ink));
+  }
+
+  /* Halaman pemuatan */
+  .sk-loading {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--color-dim);
+  }
+
+  .sk-spinner {
+    width: 44px;
+    height: 44px;
+    border: 5px solid var(--color-soft);
+    border-top-color: var(--color-acc);
+    border-radius: 50%;
+    animation: sk-spin 0.8s linear infinite;
+  }
+
+  /* Kana dekoratif besar di latar */
+  .sk-watermark {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    font-weight: 900;
+    font-size: clamp(140px, 26vw, 360px);
+    line-height: 1;
+    color: color-mix(in srgb, var(--color-soft) 26%, transparent);
+    transform: rotate(-8deg);
+  }
+
+  /* Garis kecepatan ala anime di sudut halaman */
+  .sk-speedlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      repeating-linear-gradient(
+        115deg,
+        transparent 0 46px,
+        color-mix(in srgb, var(--color-soft) 26%, transparent) 46px 48px
+      );
+    mask-image: radial-gradient(
+      circle at 50% 40%,
+      transparent 42%,
+      #000 100%
+    );
+    opacity: 0.55;
+  }
+}
+
+@keyframes sk-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk-spinner {
+    animation-duration: 2s;
+  }
+
+  .sk-photo,
+  .sk-btn-ghost,
+  .sk-item,
+  .sk-dropzone {
+    transition: none;
+  }
+}

@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+*.py[cod]
+
+# Environment & rahasia (jangan pernah di-push)
+.env
+.env.*
+!.env.example
+
+# Build
+dist/
+dist-ssr/
+
+# Logs
+logs/
+*.log
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.local
